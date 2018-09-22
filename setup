@@ -1,0 +1,65 @@
+#!/bin/bash
+set -euo pipefail
+
+echo "Installing global apt packages"
+apt_packages=(
+    "curl"
+    "fontconfig"
+    "git"
+    "python3-venv"
+    "python3-pip"
+    "silversearcher-ag"
+    "tmux"
+    "thefuck"
+    "vim"
+    "wget"
+    "zsh"
+)
+for apt_package in "${apt_packages[@]}"; do
+    echo "-- Installing $apt_package"
+    sudo apt -y install "$apt_package"
+done
+
+cd ~
+
+echo "Cloning dotfiles"
+git clone https://github.com/flamecze/dotfiles.git
+cd dotfiles
+./index
+cd ~
+
+echo "Installing Vim plugin manager"
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+echo "Installing Vim plugins"
+vim +PlugInstall +qall
+
+echo "Installing Node version manager"
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+
+echo "Installing Tmux Plugin Manager"
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+echo "Installing Tmux plugins"
+~/.tmux/plugins/tpm/scripts/install_plugins.sh
+
+echo "Installing oh-my-zsh"
+git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+
+echo "Setting zsh as default shell"
+chsh -s /bin/zsh
+
+echo "Installing oh-my-zsh powerlevel9k theme"
+pip3 install setuptools
+pip3 install --user powerline-status
+wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+mkdir -p ~/.local/share/fonts/
+mv PowerlineSymbols.otf ~/.local/share/fonts/
+sudo fc-cache -vf ~/.local/share/fonts/
+mkdir -p ~/.config/fontconfig/conf.d/
+mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
+git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+
+echo "DONE"

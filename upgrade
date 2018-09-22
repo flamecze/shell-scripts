@@ -1,0 +1,20 @@
+#!/bin/bash
+set -euo pipefail
+
+echo "Upgrading global apt packages"
+sudo apt update
+sudo apt upgrade
+sudo apt autoremove
+
+echo "Upgrading Vim plugins"
+vim +PlugUpgrade +PlugUpdate +PlugClean +qall
+
+echo "Upgrading Node"
+nvm install --lts
+nvm use --lts
+
+echo "Upgrading npm"
+npm install -g npm
+
+echo "Upgrading Oh My Zsh"
+upgrade_oh_my_zsh
