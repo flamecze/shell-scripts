@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  app:
+    container_name: scripts_test
+    build: .
+    volumes:
+    - .:/home/test/scripts
+    stdin_open: true
+    tty: true
