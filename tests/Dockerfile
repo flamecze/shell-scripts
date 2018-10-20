@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-RUN apt-get update && apt-get install sudo
+RUN apt update && apt install sudo
 RUN useradd -m test
 RUN echo 'test:test' | chpasswd
 RUN usermod -aG sudo test

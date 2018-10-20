@@ -5,6 +5,6 @@ services:
     container_name: scripts_test
     build: .
     volumes:
-    - .:/home/test/scripts
+    - ..:/home/test/scripts
     stdin_open: true
     tty: true
