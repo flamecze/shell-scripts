@@ -1,17 +1,11 @@
-#!/bin/bash
+#!/bin/zsh
 set -euo pipefail
 
-echo "Upgrading global apt packages"
+echo Upgrading global apt packages
 sudo apt update
 apt list --upgradable
 sudo apt upgrade
 sudo apt autoremove
 
-echo "Upgrading Vim plugins"
+echo Upgrading Vim plugins
 vim +PlugUpgrade +PlugUpdate +PlugClean +qall
-
-echo "Upgrading npm"
-npm install -g npm
-
-echo "Upgrading Oh My Zsh"
-upgrade_oh_my_zsh
