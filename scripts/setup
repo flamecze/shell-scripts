@@ -18,6 +18,7 @@ apt_packages=(
     python3-venv
     python3-pip
     silversearcher-ag
+    tig
     tmux
     vim
     yarn
@@ -31,9 +32,7 @@ done
 cd ~
 
 echo Cloning dotfiles
-git clone https://github.com/flamecze/dotfiles.git
-cd dotfiles
-./index
+curl -#LS https://raw.githubusercontent.com/flamecze/dotfiles/master/bootstrap.sh | bash
 cd ~
 
 echo Installing Vim plugin manager
